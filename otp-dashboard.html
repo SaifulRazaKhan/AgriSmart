@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSmart AI - OTP Dispatch Terminal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1b8a4a;
+      --bg: #f4fcf6;
+      --charcoal: #15202b;
+      --card-bg: #ffffff;
+      --border: rgba(27, 138, 74, 0.12);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Outfit', sans-serif;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--charcoal);
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+      padding: 30px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 2px dashed var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+    }
+    .header i {
+      font-size: 32px;
+      color: var(--primary);
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: 800;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #657786;
+      margin-top: -20px;
+      margin-bottom: 25px;
+      line-height: 1.4;
+    }
+    .log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background-color: #f7faf8;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 12px;
+      animation: slideIn 0.3s ease;
+    }
+    .log-info h4 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .log-info span {
+      font-size: 12px;
+      color: #657786;
+    }
+    .otp-badge {
+      background-color: var(--primary);
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+      padding: 8px 16px;
+      border-radius: 10px;
+      letter-spacing: 1px;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #657786;
+    }
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <i class="fa-solid fa-tower-broadcast"></i>
+      <div>
+        <h1>OTP Operations Dashboard</h1>
+      </div>
+    </div>
+    <p class="subtitle">When your friend requests an OTP from their device, the generated 4-digit code will appear here in real-time. Share the code with them to authorize their login.</p>
+    
+    <div id="logs-container">
+      <div class="empty-state">
+        <i class="fa-solid fa-hourglass-empty"></i>
+        <p>Waiting for OTP requests...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fetchLogs() {
+      fetch('/api/otp/logs')
+        .then(res => res.json())
+        .then(logs => {
+          const container = document.getElementById('logs-container');
+          if (logs.length === 0) {
+            container.innerHTML = `
+              <div class="empty-state">
+                <i class="fa-solid fa-hourglass-empty"></i>
+                <p>Waiting for OTP requests...</p>
+              </div>
+            `;
+            return;
+          }
+          container.innerHTML = '';
+          logs.forEach(log => {
+            const item = document.createElement('div');
+            item.className = 'log-item';
+            item.innerHTML = `
+              <div class="log-info">
+                <h4>+91 ${log.phone}</h4>
+                <span>Requested at: ${new Date(log.timestamp).toLocaleTimeString()}</span>
+              </div>
+              <div class="otp-badge">${log.otp}</div>
+            `;
+            container.appendChild(item);
+          });
+        })
+        .catch(err => console.error("Error fetching OTP logs:", err));
+    }
+
+    // Poll logs every 2 seconds
+    fetchLogs();
+    setInterval(fetchLogs, 2000);
+  </script>
+</body>
+</html>

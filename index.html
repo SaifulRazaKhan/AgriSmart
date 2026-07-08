@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSmart AI – Smart Fertilizer & Urea Recommendation Assistant</title>
+  <!-- PWA Support -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b8a4a">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3043/3043888.png">
+  
+  <!-- Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons for visual enhancement -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Stylesheet link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Root Application Container -->
+  <div id="app-container">
+
+    <!-- 1. MANDATORY LANGUAGE SELECTION SCREEN -->
+    <div id="screen-language" class="app-screen active">
+      <div class="screen-content language-selection-wrapper">
+        <div class="brand-header animate-fade-in">
+          <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h1>AgriSmart AI</h1>
+          <p class="subtitle">Smart Fertilizer & Urea Advisor</p>
+        </div>
+
+        <div class="language-instruction">
+          <p class="prompt-hi">कृपया अपनी भाषा चुनें</p>
+          <p class="prompt-en">Please select your language</p>
+        </div>
+
+        <!-- Major Languages Cards Grid -->
+        <div class="major-languages-grid">
+          <button class="lang-card highlighted" data-lang="hi">
+            <span class="native-script">हिन्दी</span>
+            <span class="transliterated">Hindi</span>
+            <span class="recommend-badge">अनुशंसित / Recommended</span>
+          </button>
+          <button class="lang-card" data-lang="en">
+            <span class="native-script">English</span>
+            <span class="transliterated">English</span>
+          </button>
+          <button class="lang-card" data-lang="ur">
+            <span class="native-script">اردو</span>
+            <span class="transliterated">Urdu</span>
+          </button>
+          <button class="lang-card" data-lang="mr">
+            <span class="native-script">मराठी</span>
+            <span class="transliterated">Marathi</span>
+          </button>
+        </div>
+
+        <div class="divider-text">
+          <span>अन्य भाषाएं / More Languages</span>
+        </div>
+
+        <!-- Scrolling List of Other Regional Languages -->
+        <div class="scrolling-languages-list">
+          <button class="lang-pill" data-lang="pa"><span class="native-script">ਪੰਜਾਬੀ</span> (Punjabi)</button>
+          <button class="lang-pill" data-lang="bn"><span class="native-script">বাংলা</span> (Bengali)</button>
+          <button class="lang-pill" data-lang="gu"><span class="native-script">ગુજરાતી</span> (Gujarati)</button>
+          <button class="lang-pill" data-lang="ta"><span class="native-script">தமிழ்</span> (Tamil)</button>
+          <button class="lang-pill" data-lang="te"><span class="native-script">తెలుగు</span> (Telugu)</button>
+          <button class="lang-pill" data-lang="kn"><span class="native-script">ಕನ್ನಡ</span> (Kannada)</button>
+          <button class="lang-pill" data-lang="ml"><span class="native-script">മലയാളം</span> (Malayalam)</button>
+          <button class="lang-pill" data-lang="or"><span class="native-script">ଓଡ଼ିଆ</span> (Odia)</button>
+          <button class="lang-pill" data-lang="as"><span class="native-script">অসমীয়া</span> (Assamese)</button>
+        </div>
+
+        <div class="action-footer">
+          <button id="btn-confirm-language" class="btn btn-primary btn-block btn-lg">
+            <span>आगे बढ़ें / Proceed</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. QUICK MOBILE OTP LOGIN SCREEN -->
+    <div id="screen-login" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="goToScreen('screen-language')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title" data-i18n="login_title">OTP Login</span>
+        <div class="header-spacer"></div>
+      </header>
+      <div class="screen-content form-container">
+        <div class="form-art">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 data-i18n="enter_phone_title">Verify Mobile Number</h2>
+        <p class="form-desc" data-i18n="enter_phone_desc">We will send a 4-digit verification code to log in safely.</p>
+        
+        <div class="form-group">
+          <label for="input-phone" data-i18n="phone_label">Mobile Number</label>
+          <div class="input-with-prefix">
+            <span class="prefix">+91</span>
+            <input type="tel" id="input-phone" placeholder="98765 43210" maxlength="10">
+          </div>
+        </div>
+
+        <div id="otp-group" class="form-group hidden">
+          <label for="input-otp" data-i18n="otp_label">Enter 4-Digit OTP</label>
+          <input type="text" id="input-otp" placeholder="XXXX" maxlength="4" class="otp-input">
+          <p class="resend-timer"><span data-i18n="resend_text">Resend Code in:</span> <span id="timer-seconds">59</span>s</p>
+        </div>
+
+        <button id="btn-login-submit" class="btn btn-primary btn-block btn-lg">
+          <span data-i18n="btn_send_otp">Send OTP Code</span> <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. MAIN DASHBOARD SCREEN -->
+    <div id="screen-dashboard" class="app-screen">
+      <header class="dashboard-header">
+        <div class="user-greeting">
+          <div class="avatar"><i class="fa-solid fa-user-gear"></i></div>
+          <div>
+            <h4 data-i18n="welcome_back">Welcome Back,</h4>
+            <h3 id="dash-user-name">Saiful</h3>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-header-action" id="btn-theme-toggle" title="Toggle Dark/Light Mode"><i class="fa-solid fa-moon"></i></button>
+          <button class="btn-header-action" onclick="goToScreen('screen-admin')" title="Admin Panel"><i class="fa-solid fa-chart-line"></i></button>
+          <button class="btn-header-action" onclick="goToScreen('screen-settings')" title="Settings"><i class="fa-solid fa-gear"></i></button>
+        </div>
+      </header>
+
+      <div class="screen-content dashboard-content">
+        <!-- Weather Status Card -->
+        <div class="weather-alert-card animate-slide-in">
+          <div class="weather-main">
+            <div class="weather-info">
+              <span class="temp" id="dash-temp">32°C</span>
+              <span class="desc" id="dash-weather-desc">Partly Cloudy</span>
+              <span class="location" id="dash-location">
+                <i class="fa-solid fa-location-dot"></i> <span id="dash-location-text">Lucknow, UP</span>
+                <button id="btn-gps-sync" title="Sync live weather via GPS" style="background: none; border: none; color: var(--primary-green); cursor: pointer; font-size: 14px; padding: 2px 6px; display: inline-flex; align-items: center; margin-left: 4px; border-radius: 4px; background-color: var(--primary-green-light); transition: opacity 0.2s;"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <span id="weather-status-badge" style="font-size: 8px; font-weight: 800; background: var(--neutral-slate); color: var(--neutral-white); padding: 2px 5px; border-radius: 10px; margin-left: 6px; vertical-align: middle;">SIMULATED</span>
+              </span>
+            </div>
+            <div class="weather-icon-lg">
+              <i class="fa-solid fa-cloud-sun-rain"></i>
+            </div>
+          </div>
+          <div class="weather-advisory-alert green">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="dash-weather-advisory" data-i18n="weather_safe_advisory">No rain expected for 48 hours. Excellent timing for granular urea application.</span>
+          </div>
+        </div>
+        <!-- Weather Simulation Controller -->
+        <div class="weather-simulator-panel animate-slide-in">
+          <span class="sim-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Weather Demo Simulator</span>
+          <div class="sim-btn-group">
+            <button class="sim-btn active" data-weather="default">Clear</button>
+            <button class="sim-btn" data-weather="rain">Heavy Rain</button>
+            <button class="sim-btn" data-weather="wind">High Wind</button>
+            <button class="sim-btn" data-weather="drought">Drought</button>
+          </div>
+        </div>
+
+        <!-- Quick Advisory Start Trigger -->
+        <div class="advisory-cta-box" onclick="startChatbot()">
+          <div class="cta-content">
+            <h3 data-i18n="cta_title">Get Smart Fertilizer Recommendation</h3>
+            <p data-i18n="cta_subtitle">Choose the correct urea/fertilizer type, exact quantities, and schedules.</p>
+          </div>
+          <div class="cta-icon-wrapper">
+            <i class="fa-solid fa-comment-medical"></i>
+          </div>
+        </div>
+
+        <!-- Soil OCR Upload Trigger -->
+        <div id="ocr-upload-box" class="ocr-cta-box animate-slide-in" style="background-color: var(--neutral-white); border: 2px dashed var(--primary-green); border-radius: var(--border-radius-lg); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 24px; box-shadow: var(--card-shadow);">
+          <div class="cta-content" style="flex: 1; padding-right: 16px;">
+            <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-green); margin-bottom: 4px;"><i class="fa-solid fa-file-invoice"></i> Upload Soil Report (OCR)</h3>
+            <p style="font-size: 12px; color: var(--neutral-slate);">Upload physical report photo to auto-fill NPK parameters.</p>
+            <input type="file" id="ocr-file-input" accept="image/*" class="hidden">
+          </div>
+          <div class="ocr-icon-wrapper" style="width: 44px; height: 44px; background-color: var(--primary-green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-green);">
+            <i class="fa-solid fa-camera"></i>
+          </div>
+        </div>
+
+        <!-- Quick Statistics Section -->
+        <div class="dashboard-section-title">
+          <span data-i18n="your_farm_title">Your Farm Config</span>
+          <button class="btn-text" onclick="goToScreen('screen-settings')" data-i18n="edit_btn">Edit</button>
+        </div>
+
+        <div class="farm-spec-grid">
+          <div class="spec-card">
+            <span class="label" data-i18n="spec_soil">Soil Type</span>
+            <span class="value" id="dash-soil-type">Loamy Soil</span>
+            <i class="fa-solid fa-mountain icon"></i>
+          </div>
+          <div class="spec-card">
+            <span class="label" data-i18n="spec_size">Land Area</span>
+            <span class="value" id="dash-land-area">2.5 Acres</span>
+            <i class="fa-solid fa-vector-square icon"></i>
+          </div>
+          <div class="spec-card">
+            <span class="label" data-i18n="spec_budget">Budget Level</span>
+            <span class="value" id="dash-budget-level">Medium</span>
+            <i class="fa-solid fa-wallet icon"></i>
+          </div>
+        </div>
+
+        <!-- Historical Logs Section -->
+        <div class="dashboard-section-title">
+          <span data-i18n="history_title">Recent Consultation History</span>
+        </div>
+
+        <div id="history-list" class="history-list-wrapper">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Navigation Bar -->
+      <nav class="app-nav">
+        <button class="nav-item active" onclick="goToScreen('screen-dashboard')">
+          <i class="fa-solid fa-house"></i>
+          <span data-i18n="nav_home">Home</span>
+        </button>
+        <button class="nav-item" onclick="startChatbot()">
+          <i class="fa-solid fa-comments"></i>
+          <span data-i18n="nav_chat">Chatbot</span>
+        </button>
+        <button class="nav-item" onclick="goToScreen('screen-settings')">
+          <i class="fa-solid fa-gear"></i>
+          <span data-i18n="nav_settings">Settings</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- 4. CHATBOT CONSOLE SCREEN -->
+    <div id="screen-chatbot" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="confirmQuitChat()"><i class="fa-solid fa-xmark"></i></button>
+        <span class="header-title"><i class="fa-solid fa-robot"></i> AgriSmart AI Bot</span>
+        <div class="header-spacer"></div>
+        <button class="btn-header-action" id="btn-voice-input" title="Voice Input" style="color: var(--primary-green); font-size: 20px;"><i class="fa-solid fa-microphone"></i></button>
+      </header>
+
+      <!-- Chat Mode Selection Toggle -->
+      <div id="chat-mode-selection" class="chat-mode-bar hidden" style="background: var(--primary-green-light); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; border-bottom: 1px solid var(--card-border-glass);">
+        <span style="font-weight: 700; color: var(--primary-green);"><i class="fa-solid fa-wand-magic-sparkles"></i> Mode:</span>
+        <div class="toggle-container" style="display: flex; gap: 8px;">
+          <button id="btn-mode-wizard" class="mode-pill active" onclick="switchChatMode('wizard')" style="background: var(--primary-green); color: var(--neutral-white); border: none; padding: 4px 10px; border-radius: var(--border-radius-sm); font-size: 11px; font-weight: 700; cursor: pointer;">Guided Wizard</button>
+          <button id="btn-mode-live" class="mode-pill" onclick="switchChatMode('live')" style="background: none; color: var(--primary-green); border: none; padding: 4px 10px; border-radius: var(--border-radius-sm); font-size: 11px; font-weight: 700; cursor: pointer;">Live AI Agronomist</button>
+        </div>
+      </div>
+
+      <!-- Messages Window -->
+      <div id="chat-messages-container" class="chat-messages-container">
+        <!-- Messages appended by JS -->
+      </div>
+
+      <!-- Bottom Interactive Dynamic Controls Panel (Wizard) -->
+      <div id="chat-input-panel" class="chat-input-panel">
+        <!-- Inside here, HTML input grids are switched dynamically by JS -->
+      </div>
+
+      <!-- Live AI Keyboard Input Panel (Hidden by default) -->
+      <div id="live-chat-input-panel" class="chat-input-panel hidden" style="background-color: var(--neutral-white); border-top: 1px solid var(--card-border-glass); padding: 12px 16px; display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="live-chat-input" placeholder="Ask anything about farming..." style="flex: 1; border: 1px solid var(--card-border-glass); border-radius: var(--border-radius-lg); padding: 12px 16px; font-size: 14px; outline: none; background: var(--neutral-white); color: var(--neutral-charcoal);">
+        <button id="btn-send-live-chat" class="btn btn-primary" onclick="sendLiveChatMessage()" style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; font-size: 16px;"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+
+    <!-- 5. RECOMMENDATION DASHBOARD -->
+    <div id="screen-recommendations" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title" data-i18n="rec_title">Fertilizer Blueprint</span>
+        <button class="btn-header-action" onclick="window.print()" title="Print Summary"><i class="fa-solid fa-print"></i></button>
+      </header>
+
+      <!-- Sub Navigation Tabs -->
+      <div class="recommendations-tabs">
+        <button class="tab-item active" data-target="tab-overview" data-i18n="tab_overview">Overview</button>
+        <button class="tab-item" data-target="tab-planner" data-i18n="tab_planner">Planner</button>
+        <button class="tab-item" data-target="tab-risk" data-i18n="tab_risk">Risk Analysis</button>
+      </div>
+
+      <div class="screen-content recommendations-content">
+        
+        <!-- Target Crop Metadata Header -->
+        <div class="crop-rec-header">
+          <div class="crop-badge" id="rec-crop-badge">🌾</div>
+          <div>
+            <h2 id="rec-crop-title">Rice / धान</h2>
+            <p><span data-i18n="rec_stage_lbl">Growth Stage:</span> <strong id="rec-growth-stage">Vegetative</strong></p>
+          </div>
+          <div class="suitability-score-box">
+            <span class="lbl" data-i18n="suitability">Suitability</span>
+            <span class="score" id="rec-suitability-score">98%</span>
+          </div>
+        </div>
+
+        <!-- Weather and Local Alert Block -->
+        <div class="weather-alert-card inline" id="rec-weather-warning-box">
+          <!-- Will show rain or speed warnings dynamically -->
+        </div>
+
+        <!-- TAB CONTENT: OVERVIEW -->
+        <div id="tab-overview" class="tab-pane active">
+          <h3 class="section-subtitle" data-i18n="recommended_fertilizers">Recommended Fertilizer Mix</h3>
+          <div id="fertilizer-cards-container" class="fertilizer-cards-wrapper">
+            <!-- Dynamic Cards built by JS -->
+          </div>
+
+          <!-- Total Calculation Summary -->
+          <div class="total-summary-card">
+            <h4 data-i18n="cost_estimation_title">Total Estimated Investment</h4>
+            <div class="cost-row">
+              <span data-i18n="subtotal_fertilizers">Fertilizers & Urea Subtotal</span>
+              <span class="price-val" id="rec-cost-total">₹ 1,480.00</span>
+            </div>
+            <div class="cost-row highlight">
+              <span data-i18n="yield_potential">Estimated Profit Increase</span>
+              <span class="profit-val" id="rec-profit-estimate">+ ₹ 6,400 / Acre</span>
+            </div>
+          </div>
+
+          <!-- Cost Comparison SVG Chart -->
+          <div class="chart-summary-card animate-slide-in">
+            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: var(--neutral-charcoal);"><i class="fa-solid fa-chart-bar"></i> Fertilizer Cost Comparison</h4>
+            <div class="svg-chart-container" style="background-color: #fafdfb; border-radius: var(--border-radius-md); padding: 12px; border: 1px solid var(--card-border-glass); margin-bottom: 8px;">
+              <svg id="cost-comparison-svg" viewBox="0 0 300 120" width="100%" height="120">
+                <!-- Mapped dynamically in JS -->
+              </svg>
+            </div>
+            <p style="font-size: 11px; color: var(--neutral-slate);"><i class="fa-solid fa-circle-info"></i> Traditional Granular Urea vs. AgriSmart Nano Urea optimization mix.</p>
+          </div>
+
+          <!-- Share via WhatsApp Button -->
+          <button id="btn-whatsapp-share" class="btn btn-block btn-whatsapp" style="margin-top: 16px; margin-bottom: 16px; background-color: #25D366; color: white;">
+            <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> <span>व्हाट्सएप पर शेयर करें / Share via WhatsApp</span>
+          </button>
+
+          <!-- Irrigation Suggestions -->
+          <div class="tip-card animate-slide-in">
+            <div class="icon-wrap"><i class="fa-solid fa-droplet"></i></div>
+            <div class="body">
+              <h4 data-i18n="irrigation_title">Irrigation Suggestion</h4>
+              <p id="rec-irrigation-suggestion">Drip Irrigation recommended. Apply watering 24 hours prior to granular urea application to facilitate optimal root adsorption.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: PLANNER -->
+        <div id="tab-planner" class="tab-pane">
+          <div class="planner-header">
+            <h3 class="section-subtitle" data-i18n="stage_planner_title">Growth Stage Calendar Schedule</h3>
+            <p data-i18n="stage_planner_desc">Follow this schedule throughout the lifecycle of the crop to maximize production efficiency.</p>
+          </div>
+
+          <div class="timeline-planner" id="timeline-planner-container">
+            <!-- Dynamic Timeline Grid built by JS -->
+          </div>
+        </div>
+
+        <!-- TAB CONTENT: RISK ANALYSIS -->
+        <div id="tab-risk" class="tab-pane">
+          <div class="risk-summary-card">
+            <h3 class="risk-title text-red"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="risk_title">Fertilizer Risk Warning</span></h3>
+            <p data-i18n="risk_introduction">Excessive fertilizer destroys micro-ecosystems in loamy soil and scales production costs without yield gains. Insufficient dosage leads to weak stems.</p>
+            
+            <div class="risk-bar-group">
+              <div class="risk-bar-labels">
+                <span class="label">Nitrogen (N) Risk Saturation</span>
+                <span class="val-lbl" id="risk-lbl-n">65% (Optimal)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-bar green" id="risk-bar-n" style="width: 65%;"></div>
+              </div>
+            </div>
+
+            <div class="risk-bar-group">
+              <div class="risk-bar-labels">
+                <span class="label">Phosphorus (P) Risk Saturation</span>
+                <span class="val-lbl" id="risk-lbl-p">40% (Safe)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-bar blue" id="risk-bar-p" style="width: 40%;"></div>
+              </div>
+            </div>
+
+            <div class="risk-bar-group">
+              <div class="risk-bar-labels">
+                <span class="label">Potassium (K) Risk Saturation</span>
+                <span class="val-lbl" id="risk-lbl-k">30% (Safe)</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-bar blue" id="risk-bar-k" style="width: 30%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="risk-grid">
+            <div class="risk-box danger">
+              <h4><i class="fa-solid fa-skull-crossbones"></i> <span data-i18n="overuse_risks">Overuse Risks</span></h4>
+              <ul>
+                <li data-i18n="or_1">Acidifies soil environment.</li>
+                <li data-i18n="or_2">Leaches nitrates into groundwater.</li>
+                <li data-i18n="or_3">Increases susceptibility to stem rot and pests.</li>
+              </ul>
+            </div>
+            <div class="risk-box warning">
+              <h4><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="underuse_risks">Underuse Risks</span></h4>
+              <ul>
+                <li data-i18n="ur_1">Stunted root systems.</li>
+                <li data-i18n="ur_2">Premature yellowing of leaves.</li>
+                <li data-i18n="ur_3">Poor flowering and grain-filling.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 6. SETTINGS & PROFILE MANAGEMENT -->
+    <div id="screen-settings" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title" data-i18n="settings_title">Configuration Settings</span>
+        <div class="header-spacer"></div>
+      </header>
+
+      <div class="screen-content settings-content">
+        <!-- Profile Config -->
+        <div class="settings-section">
+          <h3 data-i18n="sett_profile_header">Farmer Details</h3>
+          <div class="form-group">
+            <label for="sett-name" data-i18n="name_label">Full Name</label>
+            <input type="text" id="sett-name" value="Saiful">
+          </div>
+          <div class="form-group">
+            <label for="sett-soil" data-i18n="spec_soil">Soil Type</label>
+            <select id="sett-soil">
+              <option value="loamy" selected>Loamy Soil / दोमट मिट्टी</option>
+              <option value="sandy">Sandy Soil / रेतीली मिट्टी</option>
+              <option value="clay">Clay Soil / चिकनी मिट्टी</option>
+              <option value="black">Black Soil / काली मिट्टी</option>
+              <option value="red">Red Soil / लाल मिट्टी</option>
+              <option value="alluvial">Alluvial Soil / जलोढ़ मिट्टी</option>
+            </select>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="sett-area" data-i18n="spec_size">Land Area</label>
+              <input type="number" id="sett-area" value="2.5" step="0.1">
+            </div>
+            <div class="form-group">
+              <label for="sett-unit">Unit</label>
+              <select id="sett-unit">
+                <option value="acre" selected>Acres</option>
+                <option value="hectare">Hectares</option>
+                <option value="bigha">Bigha</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sett-budget" data-i18n="spec_budget">Budget Level</label>
+            <select id="sett-budget">
+              <option value="low">Low Budget / कम बजट</option>
+              <option value="medium" selected>Medium Budget / मध्यम बजट</option>
+              <option value="high">High Budget / उच्च बजट</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Language Switcher Section -->
+        <div class="settings-section">
+          <h3 data-i18n="sett_lang_header">Interface Language</h3>
+          <p class="form-desc" data-i18n="sett_lang_desc">Changing the language updates all UI text, advice cards, and chatbot triggers immediately.</p>
+          <div class="settings-lang-grid">
+            <button class="lang-pill" data-lang="hi">हिन्दी (Hindi)</button>
+            <button class="lang-pill" data-lang="en">English</button>
+            <button class="lang-pill" data-lang="ur">اردو (Urdu)</button>
+            <button class="lang-pill" data-lang="mr">मराठी (Marathi)</button>
+          </div>
+        </div>
+
+        <!-- Gemini API Key Config Section -->
+        <div class="settings-section">
+          <h3>AI Configuration</h3>
+          <p class="form-desc">Provide your Google Gemini API Key to enable the live conversational AI Agronomist chatbot. Leave blank to use the local guided wizard.</p>
+          <div class="form-group">
+            <label for="sett-gemini-key">Gemini API Key</label>
+            <div style="position: relative; display: flex; align-items: center;">
+              <input type="password" id="sett-gemini-key" placeholder="Enter AIzaSy..." style="padding-right: 40px; width: 100%;">
+              <button type="button" id="btn-toggle-key-visibility" style="position: absolute; right: 10px; background: none; border: none; color: var(--neutral-slate); cursor: pointer; font-size: 16px;">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+          <div id="gemini-key-status" class="key-status-badge invalid" style="margin-top: 8px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; color: #d9534f;">
+            <i class="fa-solid fa-circle-xmark"></i> <span>No API Key Saved</span>
+          </div>
+        </div>
+
+        <button id="btn-save-settings" class="btn btn-primary btn-block btn-lg" onclick="saveSettings()">
+          <span data-i18n="btn_save">Save Configuration</span> <i class="fa-solid fa-check"></i>
+        </button>
+      </div>
+
+      <nav class="app-nav">
+        <button class="nav-item" onclick="goToScreen('screen-dashboard')">
+          <i class="fa-solid fa-house"></i>
+          <span data-i18n="nav_home">Home</span>
+        </button>
+        <button class="nav-item" onclick="startChatbot()">
+          <i class="fa-solid fa-comments"></i>
+          <span data-i18n="nav_chat">Chatbot</span>
+        </button>
+        <button class="nav-item active" onclick="goToScreen('screen-settings')">
+          <i class="fa-solid fa-gear"></i>
+          <span data-i18n="nav_settings">Settings</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- 7. ADMIN TELEMETRY WORKSPACE -->
+    <div id="screen-admin" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title">Admin Operations Console</span>
+        <div class="header-spacer"></div>
+      </header>
+
+      <div class="screen-content admin-content">
+        <div class="admin-stat-row">
+          <div class="admin-stat-card">
+            <span class="lbl">Total Farmers</span>
+            <span class="val">1,248</span>
+          </div>
+          <div class="admin-stat-card">
+            <span class="lbl">Consultations</span>
+            <span class="val">4,812</span>
+          </div>
+        </div>
+
+        <!-- Language Usage Statistics Graph Mockup -->
+        <div class="admin-chart-card">
+          <h4>Language Usage Metrics</h4>
+          <div class="lang-bars">
+            <div class="chart-row">
+              <span class="lang-label">Hindi (हिन्दी)</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 58%;">58%</div></div>
+            </div>
+            <div class="chart-row">
+              <span class="lang-label">English</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 15%;">15%</div></div>
+            </div>
+            <div class="chart-row">
+              <span class="lang-label">Marathi (मराठी)</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 12%;">12%</div></div>
+            </div>
+            <div class="chart-row">
+              <span class="lang-label">Urdu (اردو)</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 8%;">8%</div></div>
+            </div>
+            <div class="chart-row">
+              <span class="lang-label">Others</span>
+              <div class="bar-track"><div class="bar-fill" style="width: 7%;">7%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regional Crop Preferences -->
+        <div class="admin-chart-card">
+          <h4>Top Queried Crops</h4>
+          <div class="crop-ranking-list">
+            <div class="rank-item">
+              <span class="rank">#1</span>
+              <span class="crop-name">Rice (धान)</span>
+              <span class="count">1,892 Queries</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank">#2</span>
+              <span class="crop-name">Wheat (गेहूं)</span>
+              <span class="count">1,410 Queries</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank">#3</span>
+              <span class="crop-name">Sugarcane (गन्ना)</span>
+              <span class="count">904 Queries</span>
+            </div>
+            <div class="rank-item">
+              <span class="rank">#4</span>
+              <span class="crop-name">Cotton (कपास)</span>
+              <span class="count">412 Queries</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Admin Configuration Overrides -->
+        <div class="admin-chart-card">
+          <h4>Agronomy Coefficient Overrides</h4>
+          <div class="override-controls">
+            <div class="ctrl-group">
+              <label>Neem Urea Subsidy Multiplier</label>
+              <input type="number" step="0.05" value="1.00">
+            </div>
+            <div class="ctrl-group">
+              <label>Rain Delay Precip. Threshold (mm)</label>
+              <input type="number" value="20">
+            </div>
+            <button class="btn btn-primary btn-sm btn-block">Apply Coefficients Globally</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- OCR Loading Modal Overlay -->
+  <div id="ocr-modal" class="ocr-modal hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px;">
+    <div class="ocr-modal-content" style="background: var(--neutral-white); border-radius: var(--border-radius-lg); padding: 30px; width: 100%; max-width: 380px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid var(--card-border-glass);">
+      <div class="ocr-scan-line" style="width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; border: 3px solid var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--primary-green); position: relative; overflow: hidden;">
+        <i class="fa-solid fa-file-invoice"></i>
+        <div class="scanner-bar" style="position: absolute; width: 100%; height: 4px; background-color: var(--primary-green); top: 0; left: 0; width: 100%; animation: scan-anim 1.5s infinite ease-in-out;"></div>
+      </div>
+      <h3 id="ocr-modal-title">Scanning Soil Report...</h3>
+      <p id="ocr-modal-desc" style="font-size: 13px; color: var(--neutral-slate); margin-top: 8px;">Extracting N-P-K nutrient saturation ratings using client-side OCR analysis.</p>
+      
+      <div class="progress-track" style="margin-top: 20px; height: 6px;">
+        <div id="ocr-progress-bar" class="progress-bar green" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Javascript entry -->
+  <script src="app.js"></script>
+  
+  <!-- Register PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => console.log('[PWA] Service Worker registered: ', reg.scope))
+          .catch((err) => console.error('[PWA] Service Worker registration failed: ', err));
+      });
+    }
+  </script>
+</body>
+</html>
