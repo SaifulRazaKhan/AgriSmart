@@ -1,13 +1,38 @@
-🌾 AgriSmart AI
+# 🌾 AgriSmart AI
 
-AI-powered multilingual smart fertilizer recommendation platform for farmers.
+> **An AI-powered multilingual smart agriculture platform that helps farmers make informed fertilizer and urea decisions through intelligent recommendations, weather insights, and an intuitive mobile-first experience.**
 
-🚀 Features
-🌱 AI-powered fertilizer recommendations
-🌍 Multilingual Interface (13 Indian Languages)
-📍 GPS-based weather integration
-🔐 OTP Authentication
-📱 Progressive Web App (PWA)
-📊 Farmer Dashboard
-🤖 AI Chat Assistant
-🌦️ Weather-aware fertilizer recommendations
+## 🚀 Key Features
+
+- 🤖 AI-powered fertilizer recommendation system
+- 🌍 Multilingual support (13 Indian languages)
+- 📍 GPS-based live weather integration
+- 🌦️ Weather-aware fertilizer advisory
+- 🔐 Secure OTP-based authentication
+- 📱 Progressive Web App (PWA) support
+- 📊 Interactive farmer dashboard
+- 💬 AI-powered agricultural chatbot
+- 📅 Crop growth stage planner
+- 💰 Fertilizer cost estimation
+- ⚠️ Risk analysis and safety recommendations
+
+## 🛠️ Tech Stack
+
+**Frontend**
+- HTML5
+- CSS3
+- JavaScript (ES6)
+
+**Backend**
+- Node.js
+
+**Technologies**
+- Progressive Web App (PWA)
+- Service Workers
+- Local Storage
+- REST APIs
+- Responsive Design
+
+---
+
+> **Empowering farmers with AI-driven agricultural insights for smarter and more sustainable farming. 🌱**
