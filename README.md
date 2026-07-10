@@ -46,4 +46,4 @@ AgriSmart AI is currently under active development.
 - [ ] Crop Disease Detection
 - [ ] Soil Health Prediction
 - [ ] Farmer Authentication
-- [ ] Admin Analytics Dashboard
+- [ ] Admin Analytics Dashboard.
