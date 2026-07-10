@@ -36,3 +36,14 @@
 ---
 
 > **Empowering farmers with AI-driven agricultural insights for smarter and more sustainable farming. 🌱**
+> ## 📌 Current Status
+
+AgriSmart AI is currently under active development.
+
+### Upcoming Features
+- [ ] Gemini AI Integration
+- [ ] Voice Assistant
+- [ ] Crop Disease Detection
+- [ ] Soil Health Prediction
+- [ ] Farmer Authentication
+- [ ] Admin Analytics Dashboard
