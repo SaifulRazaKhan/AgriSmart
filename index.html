@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AgriSmart AI – Smart Fertilizer & Urea Recommendation Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AgriSmart AI – Smart Fertilizer & Crop Recommendation Assistant</title>
   <!-- PWA Support -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1b8a4a">
@@ -25,96 +25,136 @@
   <!-- Root Application Container -->
   <div id="app-container">
 
-    <!-- 1. MANDATORY LANGUAGE SELECTION SCREEN -->
+    <!-- 1. ONBOARDING STEP 1: LANGUAGE SELECTION SCREEN -->
     <div id="screen-language" class="app-screen active">
       <div class="screen-content language-selection-wrapper">
         <div class="brand-header animate-fade-in">
           <div class="logo-icon"><i class="fa-solid fa-leaf"></i></div>
           <h1>AgriSmart AI</h1>
-          <p class="subtitle">Smart Fertilizer & Urea Advisor</p>
+          <p class="subtitle">Smart Fertilizer & Crop Advisor</p>
         </div>
 
         <div class="language-instruction">
-          <p class="prompt-hi">कृपया अपनी भाषा चुनें</p>
-          <p class="prompt-en">Please select your language</p>
+          <p class="prompt-hi">अपनी पसंदीदा भाषा चुनें</p>
+          <p class="prompt-en">Select Your Preferred Language</p>
         </div>
 
-        <!-- Major Languages Cards Grid -->
-        <div class="major-languages-grid">
+        <!-- 13 Regional Languages Grid Layout -->
+        <div class="all-languages-grid">
           <button class="lang-card highlighted" data-lang="hi">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
             <span class="native-script">हिन्दी</span>
             <span class="transliterated">Hindi</span>
-            <span class="recommend-badge">अनुशंसित / Recommended</span>
+            <span class="recommend-badge">मुख्य / Recommended</span>
           </button>
+          
           <button class="lang-card" data-lang="en">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
             <span class="native-script">English</span>
             <span class="transliterated">English</span>
           </button>
-          <button class="lang-card" data-lang="ur">
-            <span class="native-script">اردو</span>
-            <span class="transliterated">Urdu</span>
+          
+          <button class="lang-card" data-lang="pa">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">ਪੰਜਾਬੀ</span>
+            <span class="transliterated">Punjabi</span>
           </button>
+
           <button class="lang-card" data-lang="mr">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
             <span class="native-script">मराठी</span>
             <span class="transliterated">Marathi</span>
           </button>
-        </div>
 
-        <div class="divider-text">
-          <span>अन्य भाषाएं / More Languages</span>
-        </div>
+          <button class="lang-card" data-lang="gu">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">ગુજરાતી</span>
+            <span class="transliterated">Gujarati</span>
+          </button>
 
-        <!-- Scrolling List of Other Regional Languages -->
-        <div class="scrolling-languages-list">
-          <button class="lang-pill" data-lang="pa"><span class="native-script">ਪੰਜਾਬੀ</span> (Punjabi)</button>
-          <button class="lang-pill" data-lang="bn"><span class="native-script">বাংলা</span> (Bengali)</button>
-          <button class="lang-pill" data-lang="gu"><span class="native-script">ગુજરાતી</span> (Gujarati)</button>
-          <button class="lang-pill" data-lang="ta"><span class="native-script">தமிழ்</span> (Tamil)</button>
-          <button class="lang-pill" data-lang="te"><span class="native-script">తెలుగు</span> (Telugu)</button>
-          <button class="lang-pill" data-lang="kn"><span class="native-script">ಕನ್ನಡ</span> (Kannada)</button>
-          <button class="lang-pill" data-lang="ml"><span class="native-script">മലയാളം</span> (Malayalam)</button>
-          <button class="lang-pill" data-lang="or"><span class="native-script">ଓଡ଼ିଆ</span> (Odia)</button>
-          <button class="lang-pill" data-lang="as"><span class="native-script">অসমীয়া</span> (Assamese)</button>
-        </div>
+          <button class="lang-card" data-lang="bn">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">বাংলা</span>
+            <span class="transliterated">Bengali</span>
+          </button>
 
-        <div class="action-footer">
-          <button id="btn-confirm-language" class="btn btn-primary btn-block btn-lg">
-            <span>आगे बढ़ें / Proceed</span> <i class="fa-solid fa-arrow-right"></i>
+          <button class="lang-card" data-lang="ta">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">தமிழ்</span>
+            <span class="transliterated">Tamil</span>
+          </button>
+
+          <button class="lang-card" data-lang="te">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">తెలుగు</span>
+            <span class="transliterated">Telugu</span>
+          </button>
+
+          <button class="lang-card" data-lang="kn">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">ಕನ್ನಡ</span>
+            <span class="transliterated">Kannada</span>
+          </button>
+
+          <button class="lang-card" data-lang="ml">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">മലയാളം</span>
+            <span class="transliterated">Malayalam</span>
+          </button>
+
+          <button class="lang-card" data-lang="ur">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">اردو</span>
+            <span class="transliterated">Urdu</span>
+          </button>
+
+          <button class="lang-card" data-lang="or">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">ଓଡ଼ିଆ</span>
+            <span class="transliterated">Odia</span>
+          </button>
+
+          <button class="lang-card" data-lang="as">
+            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <span class="native-script">অসমীয়া</span>
+            <span class="transliterated">Assamese</span>
           </button>
         </div>
       </div>
+
+      <!-- Anchored Bottom Action Footer -->
+      <div class="action-footer sticky-footer">
+        <button id="btn-confirm-language" class="btn btn-primary btn-block btn-lg">
+          <span>आगे बढ़ें / Continue</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- 2. QUICK MOBILE OTP LOGIN SCREEN -->
-    <div id="screen-login" class="app-screen">
+    <!-- 2. ONBOARDING STEP 2: LOCAL USER PROFILE SETUP SCREEN -->
+    <div id="screen-profile-setup" class="app-screen">
       <header class="app-header">
         <button class="btn-back" onclick="goToScreen('screen-language')"><i class="fa-solid fa-arrow-left"></i></button>
-        <span class="header-title" data-i18n="login_title">OTP Login</span>
+        <span class="header-title">Create Local Profile</span>
         <div class="header-spacer"></div>
       </header>
       <div class="screen-content form-container">
-        <div class="form-art">
-          <i class="fa-solid fa-shield-halved"></i>
+        <div class="form-art green">
+          <i class="fa-solid fa-user-plus"></i>
         </div>
-        <h2 data-i18n="enter_phone_title">Verify Mobile Number</h2>
-        <p class="form-desc" data-i18n="enter_phone_desc">We will send a 4-digit verification code to log in safely.</p>
+        <h2 id="profile-setup-title">What's your name?</h2>
+        <p class="form-desc" id="profile-setup-desc">Please enter your name to personalize your crop advisor recommendations.</p>
         
         <div class="form-group">
-          <label for="input-phone" data-i18n="phone_label">Mobile Number</label>
+          <label for="input-user-name">Full Name / आपका नाम</label>
           <div class="input-with-prefix">
-            <span class="prefix">+91</span>
-            <input type="tel" id="input-phone" placeholder="98765 43210" maxlength="10">
+            <span class="prefix"><i class="fa-solid fa-user"></i></span>
+            <input type="text" id="input-user-name" placeholder="e.g. Ramesh Kumar" maxlength="40" autocomplete="off">
           </div>
+          <p id="name-error-msg" class="input-error-msg hidden"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid name (at least 2 characters).</p>
         </div>
 
-        <div id="otp-group" class="form-group hidden">
-          <label for="input-otp" data-i18n="otp_label">Enter 4-Digit OTP</label>
-          <input type="text" id="input-otp" placeholder="XXXX" maxlength="4" class="otp-input">
-          <p class="resend-timer"><span data-i18n="resend_text">Resend Code in:</span> <span id="timer-seconds">59</span>s</p>
-        </div>
-
-        <button id="btn-login-submit" class="btn btn-primary btn-block btn-lg">
-          <span data-i18n="btn_send_otp">Send OTP Code</span> <i class="fa-solid fa-chevron-right"></i>
+        <button id="btn-submit-profile-setup" class="btn btn-primary btn-block btn-lg">
+          <span>Continue to Dashboard / आगे बढ़ें</span> <i class="fa-solid fa-chevron-right"></i>
         </button>
       </div>
     </div>
@@ -125,8 +165,8 @@
         <div class="user-greeting">
           <div class="avatar"><i class="fa-solid fa-user-gear"></i></div>
           <div>
-            <h4 data-i18n="welcome_back">Welcome Back,</h4>
-            <h3 id="dash-user-name">Saiful</h3>
+            <h4 data-i18n="welcome_back">Welcome,</h4>
+            <h3><span id="dash-user-name">Farmer</span> 👋</h3>
           </div>
         </div>
         <div class="header-actions">
@@ -144,9 +184,9 @@
               <span class="temp" id="dash-temp">32°C</span>
               <span class="desc" id="dash-weather-desc">Partly Cloudy</span>
               <span class="location" id="dash-location">
-                <i class="fa-solid fa-location-dot"></i> <span id="dash-location-text">Lucknow, UP</span>
-                <button id="btn-gps-sync" title="Sync live weather via GPS" style="background: none; border: none; color: var(--primary-green); cursor: pointer; font-size: 14px; padding: 2px 6px; display: inline-flex; align-items: center; margin-left: 4px; border-radius: 4px; background-color: var(--primary-green-light); transition: opacity 0.2s;"><i class="fa-solid fa-location-crosshairs"></i></button>
-                <span id="weather-status-badge" style="font-size: 8px; font-weight: 800; background: var(--neutral-slate); color: var(--neutral-white); padding: 2px 5px; border-radius: 10px; margin-left: 6px; vertical-align: middle;">SIMULATED</span>
+                <i class="fa-solid fa-location-dot"></i> <span id="dash-location-text">Configured Region</span>
+                <button id="btn-gps-sync" title="Sync live weather via GPS" class="btn-gps-sync"><i class="fa-solid fa-location-crosshairs"></i></button>
+                <span id="weather-status-badge" class="weather-badge demo">SAVED REGION</span>
               </span>
             </div>
             <div class="weather-icon-lg">
@@ -158,6 +198,7 @@
             <span id="dash-weather-advisory" data-i18n="weather_safe_advisory">No rain expected for 48 hours. Excellent timing for granular urea application.</span>
           </div>
         </div>
+
         <!-- Weather Simulation Controller -->
         <div class="weather-simulator-panel animate-slide-in">
           <span class="sim-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Weather Demo Simulator</span>
@@ -181,13 +222,13 @@
         </div>
 
         <!-- Soil OCR Upload Trigger -->
-        <div id="ocr-upload-box" class="ocr-cta-box animate-slide-in" style="background-color: var(--neutral-white); border: 2px dashed var(--primary-green); border-radius: var(--border-radius-lg); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; margin-bottom: 24px; box-shadow: var(--card-shadow);">
-          <div class="cta-content" style="flex: 1; padding-right: 16px;">
-            <h3 style="font-size: 15px; font-weight: 700; color: var(--primary-green); margin-bottom: 4px;"><i class="fa-solid fa-file-invoice"></i> Upload Soil Report (OCR)</h3>
-            <p style="font-size: 12px; color: var(--neutral-slate);">Upload physical report photo to auto-fill NPK parameters.</p>
+        <div id="ocr-upload-box" class="ocr-cta-box animate-slide-in">
+          <div class="cta-content">
+            <h3><i class="fa-solid fa-file-invoice"></i> Upload Soil Report (OCR)</h3>
+            <p>Upload physical report photo to auto-fill NPK parameters.</p>
             <input type="file" id="ocr-file-input" accept="image/*" class="hidden">
           </div>
-          <div class="ocr-icon-wrapper" style="width: 44px; height: 44px; background-color: var(--primary-green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--primary-green);">
+          <div class="ocr-icon-wrapper">
             <i class="fa-solid fa-camera"></i>
           </div>
         </div>
@@ -222,7 +263,7 @@
         </div>
 
         <div id="history-list" class="history-list-wrapper">
-          <!-- Populated by JS -->
+          <!-- Populated by JS or Empty State -->
         </div>
       </div>
 
@@ -249,15 +290,15 @@
         <button class="btn-back" onclick="confirmQuitChat()"><i class="fa-solid fa-xmark"></i></button>
         <span class="header-title"><i class="fa-solid fa-robot"></i> AgriSmart AI Bot</span>
         <div class="header-spacer"></div>
-        <button class="btn-header-action" id="btn-voice-input" title="Voice Input" style="color: var(--primary-green); font-size: 20px;"><i class="fa-solid fa-microphone"></i></button>
+        <button class="btn-header-action" id="btn-voice-input" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
       </header>
 
       <!-- Chat Mode Selection Toggle -->
-      <div id="chat-mode-selection" class="chat-mode-bar hidden" style="background: var(--primary-green-light); padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; border-bottom: 1px solid var(--card-border-glass);">
-        <span style="font-weight: 700; color: var(--primary-green);"><i class="fa-solid fa-wand-magic-sparkles"></i> Mode:</span>
-        <div class="toggle-container" style="display: flex; gap: 8px;">
-          <button id="btn-mode-wizard" class="mode-pill active" onclick="switchChatMode('wizard')" style="background: var(--primary-green); color: var(--neutral-white); border: none; padding: 4px 10px; border-radius: var(--border-radius-sm); font-size: 11px; font-weight: 700; cursor: pointer;">Guided Wizard</button>
-          <button id="btn-mode-live" class="mode-pill" onclick="switchChatMode('live')" style="background: none; color: var(--primary-green); border: none; padding: 4px 10px; border-radius: var(--border-radius-sm); font-size: 11px; font-weight: 700; cursor: pointer;">Live AI Agronomist</button>
+      <div id="chat-mode-selection" class="chat-mode-bar hidden">
+        <span class="mode-label"><i class="fa-solid fa-wand-magic-sparkles"></i> Mode:</span>
+        <div class="toggle-container">
+          <button id="btn-mode-wizard" class="mode-pill active" onclick="switchChatMode('wizard')">Guided Wizard</button>
+          <button id="btn-mode-live" class="mode-pill" onclick="switchChatMode('live')">Live AI Agronomist</button>
         </div>
       </div>
 
@@ -272,12 +313,11 @@
       </div>
 
       <!-- Live AI Keyboard Input Panel (Hidden by default) -->
-      <div id="live-chat-input-panel" class="chat-input-panel hidden" style="background-color: var(--neutral-white); border-top: 1px solid var(--card-border-glass); padding: 12px 16px; display: flex; gap: 10px; align-items: center;">
-        <input type="text" id="live-chat-input" placeholder="Ask anything about farming..." style="flex: 1; border: 1px solid var(--card-border-glass); border-radius: var(--border-radius-lg); padding: 12px 16px; font-size: 14px; outline: none; background: var(--neutral-white); color: var(--neutral-charcoal);">
-        <button id="btn-send-live-chat" class="btn btn-primary" onclick="sendLiveChatMessage()" style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; font-size: 16px;"><i class="fa-solid fa-paper-plane"></i></button>
+      <div id="live-chat-input-panel" class="chat-input-panel hidden">
+        <input type="text" id="live-chat-input" placeholder="Ask anything about farming..." autocomplete="off">
+        <button id="btn-send-live-chat" class="btn btn-primary" onclick="sendLiveChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
       </div>
     </div>
-
 
     <!-- 5. RECOMMENDATION DASHBOARD -->
     <div id="screen-recommendations" class="app-screen">
@@ -295,7 +335,6 @@
       </div>
 
       <div class="screen-content recommendations-content">
-        
         <!-- Target Crop Metadata Header -->
         <div class="crop-rec-header">
           <div class="crop-badge" id="rec-crop-badge">🌾</div>
@@ -304,14 +343,14 @@
             <p><span data-i18n="rec_stage_lbl">Growth Stage:</span> <strong id="rec-growth-stage">Vegetative</strong></p>
           </div>
           <div class="suitability-score-box">
-            <span class="lbl" data-i18n="suitability">Suitability</span>
-            <span class="score" id="rec-suitability-score">98%</span>
+            <span class="lbl" data-i18n="suitability">Suitability Score</span>
+            <span class="score" id="rec-suitability-score">92%</span>
           </div>
         </div>
 
         <!-- Weather and Local Alert Block -->
         <div class="weather-alert-card inline" id="rec-weather-warning-box">
-          <!-- Will show rain or speed warnings dynamically -->
+          <!-- Shows rain or speed warnings dynamically -->
         </div>
 
         <!-- TAB CONTENT: OVERVIEW -->
@@ -332,22 +371,28 @@
               <span data-i18n="yield_potential">Estimated Profit Increase</span>
               <span class="profit-val" id="rec-profit-estimate">+ ₹ 6,400 / Acre</span>
             </div>
+            
+            <!-- Transparency Disclaimer Callout -->
+            <div class="financial-disclaimer-box">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>Financial and yield values are estimated based on configured agronomic parameters. Actual results vary by local weather, market prices, and farming practices.</span>
+            </div>
           </div>
 
           <!-- Cost Comparison SVG Chart -->
           <div class="chart-summary-card animate-slide-in">
-            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 12px; color: var(--neutral-charcoal);"><i class="fa-solid fa-chart-bar"></i> Fertilizer Cost Comparison</h4>
-            <div class="svg-chart-container" style="background-color: #fafdfb; border-radius: var(--border-radius-md); padding: 12px; border: 1px solid var(--card-border-glass); margin-bottom: 8px;">
+            <h4><i class="fa-solid fa-chart-bar"></i> Fertilizer Cost Comparison</h4>
+            <div class="svg-chart-container">
               <svg id="cost-comparison-svg" viewBox="0 0 300 120" width="100%" height="120">
                 <!-- Mapped dynamically in JS -->
               </svg>
             </div>
-            <p style="font-size: 11px; color: var(--neutral-slate);"><i class="fa-solid fa-circle-info"></i> Traditional Granular Urea vs. AgriSmart Nano Urea optimization mix.</p>
+            <p class="chart-caption"><i class="fa-solid fa-circle-info"></i> Traditional Granular Urea vs. AgriSmart Nano Urea optimization mix.</p>
           </div>
 
           <!-- Share via WhatsApp Button -->
-          <button id="btn-whatsapp-share" class="btn btn-block btn-whatsapp" style="margin-top: 16px; margin-bottom: 16px; background-color: #25D366; color: white;">
-            <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> <span>व्हाट्सएप पर शेयर करें / Share via WhatsApp</span>
+          <button id="btn-whatsapp-share" class="btn btn-block btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> <span>व्हाट्सएप पर शेयर करें / Share via WhatsApp</span>
           </button>
 
           <!-- Irrigation Suggestions -->
@@ -376,7 +421,7 @@
         <div id="tab-risk" class="tab-pane">
           <div class="risk-summary-card">
             <h3 class="risk-title text-red"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="risk_title">Fertilizer Risk Warning</span></h3>
-            <p data-i18n="risk_introduction">Excessive fertilizer destroys micro-ecosystems in loamy soil and scales production costs without yield gains. Insufficient dosage leads to weak stems.</p>
+            <p data-i18n="risk_introduction">Excessive fertilizer destroys micro-ecosystems in soil and scales production costs without yield gains. Insufficient dosage leads to weak stems.</p>
             
             <div class="risk-bar-group">
               <div class="risk-bar-labels">
@@ -390,36 +435,37 @@
 
             <div class="risk-bar-group">
               <div class="risk-bar-labels">
-                <span class="label">Phosphorus (P) Risk Saturation</span>
-                <span class="val-lbl" id="risk-lbl-p">40% (Safe)</span>
+                <span class="label">Phosphorus (P) Soil Fixation</span>
+                <span class="val-lbl" id="risk-lbl-p">40% (Balanced)</span>
               </div>
               <div class="progress-track">
-                <div class="progress-bar blue" id="risk-bar-p" style="width: 40%;"></div>
+                <div class="progress-bar amber" id="risk-bar-p" style="width: 40%;"></div>
               </div>
             </div>
 
             <div class="risk-bar-group">
               <div class="risk-bar-labels">
-                <span class="label">Potassium (K) Risk Saturation</span>
-                <span class="val-lbl" id="risk-lbl-k">30% (Safe)</span>
+                <span class="label">Potassium (K) Leaching Susceptibility</span>
+                <span class="val-lbl" id="risk-lbl-k">25% (Safe)</span>
               </div>
               <div class="progress-track">
-                <div class="progress-bar blue" id="risk-bar-k" style="width: 30%;"></div>
+                <div class="progress-bar safe" id="risk-bar-k" style="width: 25%;"></div>
               </div>
             </div>
           </div>
 
-          <div class="risk-grid">
-            <div class="risk-box danger">
-              <h4><i class="fa-solid fa-skull-crossbones"></i> <span data-i18n="overuse_risks">Overuse Risks</span></h4>
+          <div class="risk-details-grid">
+            <div class="risk-detail-card danger">
+              <h4 data-i18n="overuse_risks">Overuse Risks</h4>
               <ul>
                 <li data-i18n="or_1">Acidifies soil environment.</li>
                 <li data-i18n="or_2">Leaches nitrates into groundwater.</li>
                 <li data-i18n="or_3">Increases susceptibility to stem rot and pests.</li>
               </ul>
             </div>
-            <div class="risk-box warning">
-              <h4><i class="fa-solid fa-circle-exclamation"></i> <span data-i18n="underuse_risks">Underuse Risks</span></h4>
+
+            <div class="risk-detail-card warning">
+              <h4 data-i18n="underuse_risks">Underuse Risks</h4>
               <ul>
                 <li data-i18n="ur_1">Stunted root systems.</li>
                 <li data-i18n="ur_2">Premature yellowing of leaves.</li>
@@ -428,11 +474,10 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- 6. SETTINGS & PROFILE MANAGEMENT -->
+    <!-- 6. CONFIGURATION SETTINGS SCREEN -->
     <div id="screen-settings" class="app-screen">
       <header class="app-header">
         <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
@@ -440,222 +485,174 @@
         <div class="header-spacer"></div>
       </header>
 
-      <div class="screen-content settings-content">
-        <!-- Profile Config -->
-        <div class="settings-section">
-          <h3 data-i18n="sett_profile_header">Farmer Details</h3>
+      <div class="screen-content form-container">
+        <!-- Farmer Identity Card -->
+        <div class="settings-card animate-slide-in">
+          <h3 class="card-title"><i class="fa-solid fa-id-card"></i> <span data-i18n="sett_profile_header">Farmer Details</span></h3>
+          
           <div class="form-group">
             <label for="sett-name" data-i18n="name_label">Full Name</label>
-            <input type="text" id="sett-name" value="Saiful">
+            <input type="text" id="sett-name" placeholder="Enter your full name" maxlength="40">
           </div>
+
           <div class="form-group">
             <label for="sett-soil" data-i18n="spec_soil">Soil Type</label>
-            <select id="sett-soil">
-              <option value="loamy" selected>Loamy Soil / दोमट मिट्टी</option>
-              <option value="sandy">Sandy Soil / रेतीली मिट्टी</option>
-              <option value="clay">Clay Soil / चिकनी मिट्टी</option>
-              <option value="black">Black Soil / काली मिट्टी</option>
-              <option value="red">Red Soil / लाल मिट्टी</option>
-              <option value="alluvial">Alluvial Soil / जलोढ़ मिट्टी</option>
+            <select id="sett-soil" class="select-input">
+              <option value="loamy">Loamy Soil (दोमट)</option>
+              <option value="sandy">Sandy Soil (रेतीली)</option>
+              <option value="clay">Clay Soil (चिकनी)</option>
+              <option value="black">Black Soil (काली)</option>
+              <option value="red">Red Soil (लाल)</option>
+              <option value="alluvial">Alluvial Soil (जलोढ़)</option>
             </select>
           </div>
-          <div class="form-row-2">
-            <div class="form-group">
+
+          <div class="form-row">
+            <div class="form-group flex-2">
               <label for="sett-area" data-i18n="spec_size">Land Area</label>
-              <input type="number" id="sett-area" value="2.5" step="0.1">
+              <input type="number" id="sett-area" min="0.1" max="1000" step="0.1">
             </div>
-            <div class="form-group">
+            <div class="form-group flex-1">
               <label for="sett-unit">Unit</label>
-              <select id="sett-unit">
-                <option value="acre" selected>Acres</option>
-                <option value="hectare">Hectares</option>
+              <select id="sett-unit" class="select-input">
+                <option value="acre">Acres</option>
                 <option value="bigha">Bigha</option>
+                <option value="hectare">Hectares</option>
               </select>
             </div>
           </div>
+
           <div class="form-group">
-            <label for="sett-budget" data-i18n="spec_budget">Budget Level</label>
-            <select id="sett-budget">
-              <option value="low">Low Budget / कम बजट</option>
-              <option value="medium" selected>Medium Budget / मध्यम बजट</option>
-              <option value="high">High Budget / उच्च बजट</option>
+            <label for="sett-budget" data-i18n="spec_budget">Budget Category</label>
+            <select id="sett-budget" class="select-input">
+              <option value="low">Low Budget (कम लागत)</option>
+              <option value="medium">Medium Budget (संतुलित)</option>
+              <option value="high">High Yield Optimization (अधिकतम लाभ)</option>
             </select>
           </div>
         </div>
 
-        <!-- Language Switcher Section -->
-        <div class="settings-section">
-          <h3 data-i18n="sett_lang_header">Interface Language</h3>
-          <p class="form-desc" data-i18n="sett_lang_desc">Changing the language updates all UI text, advice cards, and chatbot triggers immediately.</p>
-          <div class="settings-lang-grid">
-            <button class="lang-pill" data-lang="hi">हिन्दी (Hindi)</button>
+        <!-- Interface Language Card -->
+        <div class="settings-card animate-slide-in">
+          <h3 class="card-title"><i class="fa-solid fa-language"></i> <span data-i18n="sett_lang_header">Interface Language</span></h3>
+          <p class="card-desc" data-i18n="sett_lang_desc">Changing the language updates all UI text, advice cards, and chatbot triggers immediately.</p>
+          
+          <div class="language-pill-grid" id="settings-lang-grid">
+            <button class="lang-pill" data-lang="hi">हिन्दी</button>
             <button class="lang-pill" data-lang="en">English</button>
-            <button class="lang-pill" data-lang="ur">اردو (Urdu)</button>
-            <button class="lang-pill" data-lang="mr">मराठी (Marathi)</button>
+            <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
+            <button class="lang-pill" data-lang="mr">मराठी</button>
+            <button class="lang-pill" data-lang="gu">ગુજરાતી</button>
+            <button class="lang-pill" data-lang="bn">বাংলা</button>
+            <button class="lang-pill" data-lang="ta">தமிழ்</button>
+            <button class="lang-pill" data-lang="te">తెలుగు</button>
+            <button class="lang-pill" data-lang="kn">ಕನ್ನಡ</button>
+            <button class="lang-pill" data-lang="ml">മലയാളം</button>
+            <button class="lang-pill" data-lang="ur">اردو</button>
+            <button class="lang-pill" data-lang="or">ଓଡ଼ିଆ</button>
+            <button class="lang-pill" data-lang="as">অসমীয়া</button>
           </div>
         </div>
 
-        <!-- Gemini API Key Config Section -->
-        <div class="settings-section">
-          <h3>AI Configuration</h3>
-          <p class="form-desc">Provide your Google Gemini API Key to enable the live conversational AI Agronomist chatbot. Leave blank to use the local guided wizard.</p>
+        <!-- AI Configuration (Gemini Key) -->
+        <div class="settings-card animate-slide-in">
+          <h3 class="card-title"><i class="fa-solid fa-key"></i> <span>AI Configuration (Gemini API)</span></h3>
+          <p class="card-desc">Enter your personal Google Gemini API Key to enable conversational AI agronomist mode.</p>
+          
           <div class="form-group">
-            <label for="sett-gemini-key">Gemini API Key</label>
-            <div style="position: relative; display: flex; align-items: center;">
-              <input type="password" id="sett-gemini-key" placeholder="Enter AIzaSy..." style="padding-right: 40px; width: 100%;">
-              <button type="button" id="btn-toggle-key-visibility" style="position: absolute; right: 10px; background: none; border: none; color: var(--neutral-slate); cursor: pointer; font-size: 16px;">
-                <i class="fa-solid fa-eye"></i>
-              </button>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label for="sett-gemini-key" style="margin-bottom: 0;">Gemini API Key</label>
+              <span id="gemini-key-status" class="key-status-badge invalid"><i class="fa-solid fa-circle-xmark"></i> Not Set</span>
             </div>
-          </div>
-          <div id="gemini-key-status" class="key-status-badge invalid" style="margin-top: 8px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; color: #d9534f;">
-            <i class="fa-solid fa-circle-xmark"></i> <span>No API Key Saved</span>
+            <div class="input-with-prefix">
+              <input type="password" id="sett-gemini-key" placeholder="AIzaSy..." autocomplete="off">
+              <button id="btn-toggle-key-visibility" class="prefix-btn" type="button"><i class="fa-solid fa-eye"></i></button>
+            </div>
           </div>
         </div>
 
         <button id="btn-save-settings" class="btn btn-primary btn-block btn-lg" onclick="saveSettings()">
-          <span data-i18n="btn_save">Save Configuration</span> <i class="fa-solid fa-check"></i>
+          <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="btn_save">Save Configuration</span>
+        </button>
+
+        <!-- Switch Profile / Add New User Button -->
+        <button id="btn-switch-profile" class="btn btn-block btn-outline-primary" onclick="goToScreen('screen-profile-switch')" style="margin-top: 16px;">
+          <i class="fa-solid fa-users"></i> <span>Switch Local Profile / Add New User</span>
         </button>
       </div>
-
-      <nav class="app-nav">
-        <button class="nav-item" onclick="goToScreen('screen-dashboard')">
-          <i class="fa-solid fa-house"></i>
-          <span data-i18n="nav_home">Home</span>
-        </button>
-        <button class="nav-item" onclick="startChatbot()">
-          <i class="fa-solid fa-comments"></i>
-          <span data-i18n="nav_chat">Chatbot</span>
-        </button>
-        <button class="nav-item active" onclick="goToScreen('screen-settings')">
-          <i class="fa-solid fa-gear"></i>
-          <span data-i18n="nav_settings">Settings</span>
-        </button>
-      </nav>
     </div>
 
-    <!-- 7. ADMIN TELEMETRY WORKSPACE -->
-    <div id="screen-admin" class="app-screen">
+    <!-- 7. LOCAL PROFILE SWITCHER MODAL / SCREEN -->
+    <div id="screen-profile-switch" class="app-screen">
       <header class="app-header">
-        <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
-        <span class="header-title">Admin Operations Console</span>
+        <button class="btn-back" onclick="goToScreen('screen-settings')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title"><i class="fa-solid fa-users"></i> Local Profiles</span>
         <div class="header-spacer"></div>
       </header>
 
-      <div class="screen-content admin-content">
-        <div class="admin-stat-row">
-          <div class="admin-stat-card">
-            <span class="lbl">Total Farmers</span>
-            <span class="val">1,248</span>
-          </div>
-          <div class="admin-stat-card">
-            <span class="lbl">Consultations</span>
-            <span class="val">4,812</span>
-          </div>
-        </div>
+      <div class="screen-content form-container">
+        <div class="settings-card animate-slide-in">
+          <h3 class="card-title"><i class="fa-solid fa-user-check"></i> Saved Device Profiles</h3>
+          <p class="card-desc">Select an active profile on this device or create a new user profile.</p>
 
-        <!-- Language Usage Statistics Graph Mockup -->
-        <div class="admin-chart-card">
-          <h4>Language Usage Metrics</h4>
-          <div class="lang-bars">
-            <div class="chart-row">
-              <span class="lang-label">Hindi (हिन्दी)</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 58%;">58%</div></div>
-            </div>
-            <div class="chart-row">
-              <span class="lang-label">English</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 15%;">15%</div></div>
-            </div>
-            <div class="chart-row">
-              <span class="lang-label">Marathi (मराठी)</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 12%;">12%</div></div>
-            </div>
-            <div class="chart-row">
-              <span class="lang-label">Urdu (اردو)</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 8%;">8%</div></div>
-            </div>
-            <div class="chart-row">
-              <span class="lang-label">Others</span>
-              <div class="bar-track"><div class="bar-fill" style="width: 7%;">7%</div></div>
-            </div>
+          <div id="saved-profiles-list" class="profiles-list-wrapper">
+            <!-- Populated dynamically by JS -->
           </div>
-        </div>
 
-        <!-- Regional Crop Preferences -->
-        <div class="admin-chart-card">
-          <h4>Top Queried Crops</h4>
-          <div class="crop-ranking-list">
-            <div class="rank-item">
-              <span class="rank">#1</span>
-              <span class="crop-name">Rice (धान)</span>
-              <span class="count">1,892 Queries</span>
-            </div>
-            <div class="rank-item">
-              <span class="rank">#2</span>
-              <span class="crop-name">Wheat (गेहूं)</span>
-              <span class="count">1,410 Queries</span>
-            </div>
-            <div class="rank-item">
-              <span class="rank">#3</span>
-              <span class="crop-name">Sugarcane (गन्ना)</span>
-              <span class="count">904 Queries</span>
-            </div>
-            <div class="rank-item">
-              <span class="rank">#4</span>
-              <span class="crop-name">Cotton (कपास)</span>
-              <span class="count">412 Queries</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Admin Configuration Overrides -->
-        <div class="admin-chart-card">
-          <h4>Agronomy Coefficient Overrides</h4>
-          <div class="override-controls">
-            <div class="ctrl-group">
-              <label>Neem Urea Subsidy Multiplier</label>
-              <input type="number" step="0.05" value="1.00">
-            </div>
-            <div class="ctrl-group">
-              <label>Rain Delay Precip. Threshold (mm)</label>
-              <input type="number" value="20">
-            </div>
-            <button class="btn btn-primary btn-sm btn-block">Apply Coefficients Globally</button>
-          </div>
+          <button class="btn btn-primary btn-block" onclick="startNewProfileCreation()" style="margin-top: 16px;">
+            <i class="fa-solid fa-plus"></i> Create New Local Profile
+          </button>
         </div>
       </div>
     </div>
 
-  </div>
-
-  <!-- OCR Loading Modal Overlay -->
-  <div id="ocr-modal" class="ocr-modal hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px;">
-    <div class="ocr-modal-content" style="background: var(--neutral-white); border-radius: var(--border-radius-lg); padding: 30px; width: 100%; max-width: 380px; text-align: center; box-shadow: var(--card-shadow); border: 1px solid var(--card-border-glass);">
-      <div class="ocr-scan-line" style="width: 80px; height: 80px; margin: 0 auto 20px; border-radius: 50%; border: 3px solid var(--primary-green); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--primary-green); position: relative; overflow: hidden;">
-        <i class="fa-solid fa-file-invoice"></i>
-        <div class="scanner-bar" style="position: absolute; width: 100%; height: 4px; background-color: var(--primary-green); top: 0; left: 0; width: 100%; animation: scan-anim 1.5s infinite ease-in-out;"></div>
-      </div>
-      <h3 id="ocr-modal-title">Scanning Soil Report...</h3>
-      <p id="ocr-modal-desc" style="font-size: 13px; color: var(--neutral-slate); margin-top: 8px;">Extracting N-P-K nutrient saturation ratings using client-side OCR analysis.</p>
+    <!-- 8. ADMIN TELEMETRY PANEL SCREEN -->
+    <div id="screen-admin" class="app-screen">
+      <header class="app-header">
+        <button class="btn-back" onclick="goToScreen('screen-dashboard')"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="header-title"><i class="fa-solid fa-chart-line"></i> System Telemetry Admin</span>
+        <div class="header-spacer"></div>
+      </header>
       
-      <div class="progress-track" style="margin-top: 20px; height: 6px;">
-        <div id="ocr-progress-bar" class="progress-bar green" style="width: 0%;"></div>
+      <div class="screen-content form-container">
+        <!-- Admin Security Authorization Lock -->
+        <div id="admin-lock-overlay" class="admin-lock-overlay hidden">
+          <div class="lock-card">
+            <i class="fa-solid fa-lock text-amber" style="font-size: 36px; margin-bottom: 12px;"></i>
+            <h3>Admin Privileges Required</h3>
+            <p>Please enter the Admin Security PIN to view system metrics.</p>
+            <div class="form-group" style="margin-top: 16px;">
+              <input type="password" id="input-admin-pin" placeholder="Enter Admin PIN (Default: 9999)" maxlength="6" style="text-align: center; font-size: 18px; letter-spacing: 4px;">
+            </div>
+            <button class="btn btn-primary btn-block" onclick="unlockAdminAccess()">Verify & Unlock</button>
+          </div>
+        </div>
+
+        <!-- Admin Telemetry Content -->
+        <div id="admin-content-body">
+          <div class="settings-card">
+            <h3 class="card-title"><i class="fa-solid fa-server"></i> <span>Server & Telemetry Metrics</span></h3>
+            <div class="admin-metrics-grid">
+              <div class="metric-box">
+                <span class="num" id="admin-metric-status">ONLINE</span>
+                <span class="lbl">Server Status</span>
+              </div>
+              <div class="metric-box">
+                <span class="num" id="admin-metric-uptime">--</span>
+                <span class="lbl">Server Uptime (s)</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Javascript entry -->
+  </div> <!-- End #app-container -->
+
+  <!-- Toast Notification Overlay -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- JavaScript Modules -->
   <script src="app.js"></script>
-  
-  <!-- Register PWA Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((reg) => console.log('[PWA] Service Worker registered: ', reg.scope))
-          .catch((err) => console.error('[PWA] Service Worker registration failed: ', err));
-      });
-    }
-  </script>
 </body>
 </html>

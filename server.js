@@ -2,28 +2,28 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 8000;
-
-// In-memory OTP storage
-const otpStore = {}; // { phone: otp }
-const otpLogs = [];  // Array of { phone, otp, timestamp }
-
-// Utility to parse post body as JSON
-function parseJsonBody(req) {
-  return new Promise((resolve, reject) => {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk.toString();
-    });
-    req.on('end', () => {
-      try {
-        resolve(body ? JSON.parse(body) : {});
-      } catch (err) {
-        reject(err);
+// Load environment variables from .env if present
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envContent = fs.readFileSync(envPath, 'utf-8');
+    envContent.split(/\r?\n/).forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) return;
+      const parts = trimmed.split('=');
+      if (parts.length >= 2) {
+        const key = parts[0].trim();
+        const value = parts.slice(1).join('=').trim().replace(/^['"]|['"]$/g, '');
+        process.env[key] = value;
       }
     });
-  });
+    console.log('[Env] Environment variables loaded from .env');
+  } catch (e) {
+    console.error('[Env] Error reading .env file:', e);
+  }
 }
+
+const PORT = 8000;
 
 // MIME Types lookup helper
 const MIME_TYPES = {
@@ -42,92 +42,43 @@ const server = http.createServer(async (req, res) => {
 
   console.log(`[HTTP] ${method} ${url}`);
 
-  // Route API: Send OTP
-  if (url === '/api/otp/send' && method === 'POST') {
-    try {
-      const { phone } = await parseJsonBody(req);
-      if (!phone || phone.length < 10) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ status: 'error', message: 'Invalid phone number' }));
-      }
+  // CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-      // Generate a 4-digit code
-      const generatedOtp = String(Math.floor(1000 + Math.random() * 9000));
-      otpStore[phone] = generatedOtp;
-
-      // Push to dashboard log queue (keep last 15 entries)
-      otpLogs.unshift({
-        phone,
-        otp: generatedOtp,
-        timestamp: Date.now()
-      });
-      if (otpLogs.length > 15) {
-        otpLogs.pop();
-      }
-
-      console.log(`[OTP] Generated Code for +91 ${phone} is: ${generatedOtp}`);
-
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ status: 'success', message: 'OTP sent successfully (Simulated)' }));
-    } catch (e) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ status: 'error', message: 'Internal Server Error' }));
-    }
+  if (method === 'OPTIONS') {
+    res.writeHead(204);
+    return res.end();
   }
 
-  // Route API: Verify OTP
-  if (url === '/api/otp/verify' && method === 'POST') {
-    try {
-      const { phone, otp } = await parseJsonBody(req);
-      
-      // Check if matches in-memory store
-      if (otpStore[phone] && otpStore[phone] === otp) {
-        // Clear OTP after successful verify
-        delete otpStore[phone];
-        
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({
-          status: 'success',
-          token: 'jwt_mock_token_' + Date.now(),
-          user: { phone, role: 'farmer' }
-        }));
-      } else {
-        res.writeHead(401, { 'Content-Type': 'application/json' });
-        return res.end(JSON.stringify({ status: 'error', message: 'Incorrect OTP value' }));
-      }
-    } catch (e) {
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ status: 'error', message: 'Internal Server Error' }));
+  // API: SECURE ADMIN METRICS ENDPOINT
+  if (url === '/api/admin/metrics' && method === 'GET') {
+    const authHeader = req.headers['authorization'];
+    if (!authHeader || authHeader !== 'Bearer admin_pin_9999') {
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      return res.end(JSON.stringify({ 
+        status: 'error', 
+        message: 'Access Denied: Admin authorization pin required.' 
+      }));
     }
-  }
 
-  // Route API: Fetch logs (GET)
-  if (url === '/api/otp/logs' && method === 'GET') {
+    const metrics = {
+      systemStatus: 'ONLINE',
+      serverUptimeSeconds: Math.floor(process.uptime()),
+      systemTime: new Date().toISOString(),
+      architectureMode: 'Local Profile System (Zero OTP)'
+    };
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify(otpLogs));
-  }
-
-  // Route: Serve OTP Dashboard HTML
-  if (url === '/otp-dashboard' && method === 'GET') {
-    const filePath = path.join(__dirname, 'otp-dashboard.html');
-    fs.readFile(filePath, (err, content) => {
-      if (err) {
-        res.writeHead(500);
-        return res.end('Error loading dashboard page');
-      }
-      res.writeHead(200, { 'Content-Type': 'text/html' });
-      return res.end(content);
-    });
-    return;
+    return res.end(JSON.stringify({ status: 'success', metrics }));
   }
 
   // Serve static application PWA files
   let safeUrl = url === '/' ? '/index.html' : url;
-  // Prevent directory traversal attacks
   let safePath = path.normalize(safeUrl).replace(/^(\.\.[\/\\])+/, '');
   let filePath = path.join(__dirname, safePath);
 
-  // Check file extension for MIME type mapping
   const ext = path.extname(filePath);
   const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
@@ -147,6 +98,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`[Server] AgriSmart PWA running at http://localhost:${PORT}`);
-  console.log(`[Server] OTP Verification dashboard at http://localhost:${PORT}/otp-dashboard`);
+  console.log(`[Server] AgriSmart AI PWA backend running on http://localhost:${PORT}`);
+  console.log(`[Server] Architecture Mode: Local User Profile System (Zero OTP)`);
 });
