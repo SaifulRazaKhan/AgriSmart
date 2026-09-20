@@ -49,7 +49,7 @@
           </button>
           
           <button class="lang-card" data-lang="en">
-            <div class="lang-check"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="lang-check"><div class="fa-solid fa-circle-check"></div></div>
             <span class="native-script">English</span>
             <span class="transliterated">English</span>
           </button>
@@ -130,32 +130,138 @@
       </div>
     </div>
 
-    <!-- 2. ONBOARDING STEP 2: LOCAL USER PROFILE SETUP SCREEN -->
+    <!-- 2. ONBOARDING STEP 2 & 3: FARMER PROFILE & FARM INFORMATION (Multi-Step Onboarding) -->
     <div id="screen-profile-setup" class="app-screen">
       <header class="app-header">
         <button class="btn-back" onclick="goToScreen('screen-language')"><i class="fa-solid fa-arrow-left"></i></button>
-        <span class="header-title">Create Local Profile</span>
+        <span class="header-title">Farmer & Farm Setup</span>
         <div class="header-spacer"></div>
       </header>
+      
       <div class="screen-content form-container">
-        <div class="form-art green">
-          <i class="fa-solid fa-user-plus"></i>
-        </div>
-        <h2 id="profile-setup-title">What's your name?</h2>
-        <p class="form-desc" id="profile-setup-desc">Please enter your name to personalize your crop advisor recommendations.</p>
-        
-        <div class="form-group">
-          <label for="input-user-name">Full Name / आपका नाम</label>
-          <div class="input-with-prefix">
-            <span class="prefix"><i class="fa-solid fa-user"></i></span>
-            <input type="text" id="input-user-name" placeholder="e.g. Ramesh Kumar" maxlength="40" autocomplete="off">
-          </div>
-          <p id="name-error-msg" class="input-error-msg hidden"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid name (at least 2 characters).</p>
+        <!-- Progress Steps Bar -->
+        <div class="onboarding-progress-bar">
+          <div id="onboard-step-1-indicator" class="step-badge active">1. Personal Info</div>
+          <div id="onboard-step-2-indicator" class="step-badge">2. Farm Details</div>
         </div>
 
-        <button id="btn-submit-profile-setup" class="btn btn-primary btn-block btn-lg">
-          <span>Continue to Dashboard / आगे बढ़ें</span> <i class="fa-solid fa-chevron-right"></i>
-        </button>
+        <!-- STEP 1: PERSONAL INFORMATION -->
+        <div id="onboard-step-1" class="onboard-step-pane active">
+          <div class="form-art green">
+            <i class="fa-solid fa-user-plus"></i>
+          </div>
+          <h2 id="profile-setup-title">What's your name?</h2>
+          <p class="form-desc" id="profile-setup-desc">Please enter your name to personalize your local AgriSmart identity.</p>
+          
+          <div class="form-group">
+            <label for="input-user-name">Full Name / आपका नाम <span class="text-red">*</span></label>
+            <div class="input-with-prefix">
+              <span class="prefix"><i class="fa-solid fa-user"></i></span>
+              <input type="text" id="input-user-name" placeholder="e.g. Ramesh Kumar" maxlength="40" autocomplete="off">
+            </div>
+            <p id="name-error-msg" class="input-error-msg hidden"><i class="fa-solid fa-circle-exclamation"></i> Please enter a valid name (at least 2 characters).</p>
+          </div>
+
+          <button id="btn-next-to-farm-step" class="btn btn-primary btn-block btn-lg" style="margin-top: 24px;">
+            <span>Next: Farm Information</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- STEP 2: FARM INFORMATION -->
+        <div id="onboard-step-2" class="onboard-step-pane hidden">
+          <div class="form-art amber">
+            <i class="fa-solid fa-tractor"></i>
+          </div>
+          <h2>Farm Details</h2>
+          <p class="form-desc">Provide your farm information to generate tailored crop and fertilizer blueprints.</p>
+          
+          <!-- Farm Location -->
+          <div class="form-group">
+            <label for="input-farm-location">Where is your farm located?</label>
+            <div class="input-with-action">
+              <div class="input-with-prefix flex-1">
+                <span class="prefix"><i class="fa-solid fa-location-dot"></i></span>
+                <input type="text" id="input-farm-location" placeholder="e.g. Bareilly, Uttar Pradesh">
+              </div>
+              <button type="button" id="btn-onboard-gps" class="btn btn-outline-primary btn-sm" title="Use GPS Location">
+                <i class="fa-solid fa-crosshairs"></i> GPS
+              </button>
+            </div>
+            <span id="gps-status-hint" class="input-hint">Enter city/district or tap GPS to auto-detect location.</span>
+          </div>
+
+          <!-- Soil Type -->
+          <div class="form-group">
+            <label for="select-farm-soil">Soil Type / मिट्टी का प्रकार</label>
+            <select id="select-farm-soil" class="select-input">
+              <option value="loamy">Loamy Soil (दोमट)</option>
+              <option value="alluvial">Alluvial Soil (जलोढ़)</option>
+              <option value="black">Black Soil (काली)</option>
+              <option value="red">Red Soil (लाल)</option>
+              <option value="sandy">Sandy Soil (रेतीली)</option>
+              <option value="clay">Clay Soil (चिकनी)</option>
+              <option value="other">Other Soil Type</option>
+              <option value="unknown">I don't know (मुझे नहीं पता)</option>
+            </select>
+          </div>
+
+          <!-- Land Area & Unit -->
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="input-farm-area">Land Area / भूमि क्षेत्र <span class="text-red">*</span></label>
+              <input type="number" id="input-farm-area" placeholder="2.5" min="0.1" max="1000" step="0.1" value="2.5">
+            </div>
+            <div class="form-group flex-1">
+              <label for="select-farm-unit">Unit</label>
+              <select id="select-farm-unit" class="select-input">
+                <option value="acre">Acres</option>
+                <option value="bigha">Bigha</option>
+                <option value="hectare">Hectares</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Primary Crop -->
+          <div class="form-group">
+            <label for="select-farm-crop">Primary Crop Growing / मुख्य फसल</label>
+            <select id="select-farm-crop" class="select-input">
+              <option value="wheat">🌾 Wheat (गेहूं)</option>
+              <option value="rice">🌱 Rice (धान)</option>
+              <option value="maize">🌽 Maize (मक्का)</option>
+              <option value="sugarcane">🎋 Sugarcane (गन्ना)</option>
+              <option value="cotton">☁️ Cotton (कपास)</option>
+              <option value="mustard">🌼 Mustard (सरसों)</option>
+              <option value="vegetables">🥬 Vegetables (सब्जियां)</option>
+              <option value="pulses">🫘 Pulses (दालें)</option>
+            </select>
+          </div>
+
+          <!-- Irrigation -->
+          <div class="form-group">
+            <label for="select-farm-irrigation">Irrigation Source / सिंचाई व्यवस्था</label>
+            <select id="select-farm-irrigation" class="select-input">
+              <option value="tubewell">Tube well (ट्यूबवेल)</option>
+              <option value="rainfed">Rain-fed (वर्षा-आधारित)</option>
+              <option value="drip">Drip Irrigation (ड्रिप)</option>
+              <option value="sprinkler">Sprinkler (स्प्रिंकलर)</option>
+              <option value="canal">Canal (नहर)</option>
+              <option value="other">Other Source</option>
+            </select>
+          </div>
+
+          <div class="profile-info-box">
+            <p>💡 <strong>Local Profile System:</strong> All farmer and farm data is securely saved locally on this device. No external authentication backend is required.</p>
+          </div>
+
+          <div class="btn-group-row" style="margin-top: 24px;">
+            <button id="btn-back-to-step-1" class="btn btn-outline-primary" style="flex: 1;">
+              <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <button id="btn-submit-profile-setup" class="btn btn-primary" style="flex: 2;">
+              <span>Complete Setup</span> <i class="fa-solid fa-circle-check"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -186,7 +292,7 @@
               <span class="location" id="dash-location">
                 <i class="fa-solid fa-location-dot"></i> <span id="dash-location-text">Configured Region</span>
                 <button id="btn-gps-sync" title="Sync live weather via GPS" class="btn-gps-sync"><i class="fa-solid fa-location-crosshairs"></i></button>
-                <span id="weather-status-badge" class="weather-badge demo">SAVED REGION</span>
+                <span id="weather-status-badge" class="weather-badge demo">SAVED LOCATION</span>
               </span>
             </div>
             <div class="weather-icon-lg">
@@ -233,13 +339,23 @@
           </div>
         </div>
 
-        <!-- Quick Statistics Section -->
+        <!-- Comprehensive Farm Profile Card -->
         <div class="dashboard-section-title">
-          <span data-i18n="your_farm_title">Your Farm Config</span>
+          <span data-i18n="your_farm_title">Your Farm Profile</span>
           <button class="btn-text" onclick="goToScreen('screen-settings')" data-i18n="edit_btn">Edit</button>
         </div>
 
         <div class="farm-spec-grid">
+          <div class="spec-card">
+            <span class="label">📍 Location</span>
+            <span class="value" id="dash-farm-loc">Bareilly, UP</span>
+            <i class="fa-solid fa-map-pin icon"></i>
+          </div>
+          <div class="spec-card">
+            <span class="label">🌱 Primary Crop</span>
+            <span class="value" id="dash-farm-crop">Wheat</span>
+            <i class="fa-solid fa-wheat-awn icon"></i>
+          </div>
           <div class="spec-card">
             <span class="label" data-i18n="spec_soil">Soil Type</span>
             <span class="value" id="dash-soil-type">Loamy Soil</span>
@@ -251,9 +367,9 @@
             <i class="fa-solid fa-vector-square icon"></i>
           </div>
           <div class="spec-card">
-            <span class="label" data-i18n="spec_budget">Budget Level</span>
-            <span class="value" id="dash-budget-level">Medium</span>
-            <i class="fa-solid fa-wallet icon"></i>
+            <span class="label">💧 Irrigation</span>
+            <span class="value" id="dash-farm-irrigation">Tube well</span>
+            <i class="fa-solid fa-droplet icon"></i>
           </div>
         </div>
 
@@ -289,9 +405,20 @@
       <header class="app-header">
         <button class="btn-back" onclick="confirmQuitChat()"><i class="fa-solid fa-xmark"></i></button>
         <span class="header-title"><i class="fa-solid fa-robot"></i> AgriSmart AI Bot</span>
-        <div class="header-spacer"></div>
-        <button class="btn-header-action" id="btn-voice-input" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
+        
+        <!-- Highly Visible New Chat Button & Chat History Menu -->
+        <button id="btn-new-chat" class="btn btn-sm btn-primary" onclick="createNewChatSession()" title="Start a fresh conversation">
+          <i class="fa-solid fa-plus"></i> New Chat
+        </button>
+
+        <button class="btn-header-action" id="btn-voice-input" onclick="toggleVoiceRecognition()" title="Voice Input"><i class="fa-solid fa-microphone"></i></button>
       </header>
+
+      <!-- Chat Session Bar / Recent Chats Pill -->
+      <div id="chat-session-bar" class="chat-session-bar">
+        <span class="session-label"><i class="fa-solid fa-comments"></i> Active Session: <span id="current-chat-title">New Consultation</span></span>
+        <button class="btn-text btn-sm" onclick="toggleChatHistoryModal()"><i class="fa-solid fa-clock-rotate-left"></i> History</button>
+      </div>
 
       <!-- Chat Mode Selection Toggle -->
       <div id="chat-mode-selection" class="chat-mode-bar hidden">
@@ -316,6 +443,25 @@
       <div id="live-chat-input-panel" class="chat-input-panel hidden">
         <input type="text" id="live-chat-input" placeholder="Ask anything about farming..." autocomplete="off">
         <button id="btn-send-live-chat" class="btn btn-primary" onclick="sendLiveChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+
+    <!-- Chat Sessions History Modal -->
+    <div id="modal-chat-history" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent AI Chats</h3>
+          <button class="btn-icon" onclick="toggleChatHistoryModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div id="saved-chats-list" class="saved-chats-list">
+            <!-- Dynamically populated chats -->
+          </div>
+          <div class="modal-footer-actions">
+            <button class="btn btn-outline-danger btn-sm" onclick="clearCurrentChat()"><i class="fa-solid fa-trash"></i> Clear Active Chat</button>
+            <button class="btn btn-primary btn-sm" onclick="createNewChatSession(); toggleChatHistoryModal();">+ New Chat</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -375,7 +521,7 @@
             <!-- Transparency Disclaimer Callout -->
             <div class="financial-disclaimer-box">
               <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>Financial and yield values are estimated based on configured agronomic parameters. Actual results vary by local weather, market prices, and farming practices.</span>
+              <span><strong>Estimated:</strong> Financial and yield values are estimated based on configured agronomic parameters. Actual results vary by weather, market prices, and farming practices.</span>
             </div>
           </div>
 
@@ -486,9 +632,9 @@
       </header>
 
       <div class="screen-content form-container">
-        <!-- Farmer Identity Card -->
+        <!-- Farmer Identity & Farm Profile Edit Card -->
         <div class="settings-card animate-slide-in">
-          <h3 class="card-title"><i class="fa-solid fa-id-card"></i> <span data-i18n="sett_profile_header">Farmer Details</span></h3>
+          <h3 class="card-title"><i class="fa-solid fa-id-card"></i> <span>Farm Profile Details</span></h3>
           
           <div class="form-group">
             <label for="sett-name" data-i18n="name_label">Full Name</label>
@@ -496,14 +642,29 @@
           </div>
 
           <div class="form-group">
+            <label for="sett-location">Farm Location</label>
+            <div class="input-with-action">
+              <div class="input-with-prefix flex-1">
+                <span class="prefix"><i class="fa-solid fa-location-dot"></i></span>
+                <input type="text" id="sett-location" placeholder="e.g. Bareilly, UP">
+              </div>
+              <button type="button" id="btn-sett-gps" class="btn btn-outline-primary btn-sm" onclick="triggerGpsWeatherSync()">
+                <i class="fa-solid fa-crosshairs"></i> GPS
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
             <label for="sett-soil" data-i18n="spec_soil">Soil Type</label>
             <select id="sett-soil" class="select-input">
               <option value="loamy">Loamy Soil (दोमट)</option>
-              <option value="sandy">Sandy Soil (रेतीली)</option>
-              <option value="clay">Clay Soil (चिकनी)</option>
+              <option value="alluvial">Alluvial Soil (जलोढ़)</option>
               <option value="black">Black Soil (काली)</option>
               <option value="red">Red Soil (लाल)</option>
-              <option value="alluvial">Alluvial Soil (जलोढ़)</option>
+              <option value="sandy">Sandy Soil (रेतीली)</option>
+              <option value="clay">Clay Soil (चिकनी)</option>
+              <option value="other">Other Soil</option>
+              <option value="unknown">I don't know</option>
             </select>
           </div>
 
@@ -523,11 +684,28 @@
           </div>
 
           <div class="form-group">
-            <label for="sett-budget" data-i18n="spec_budget">Budget Category</label>
-            <select id="sett-budget" class="select-input">
-              <option value="low">Low Budget (कम लागत)</option>
-              <option value="medium">Medium Budget (संतुलित)</option>
-              <option value="high">High Yield Optimization (अधिकतम लाभ)</option>
+            <label for="sett-crop">Primary Crop</label>
+            <select id="sett-crop" class="select-input">
+              <option value="wheat">🌾 Wheat (गेहूं)</option>
+              <option value="rice">🌱 Rice (धान)</option>
+              <option value="maize">🌽 Maize (मक्का)</option>
+              <option value="sugarcane">🎋 Sugarcane (गन्ना)</option>
+              <option value="cotton">☁️ Cotton (कपास)</option>
+              <option value="mustard">🌼 Mustard (सरसों)</option>
+              <option value="vegetables">🥬 Vegetables (सब्जियां)</option>
+              <option value="pulses">🫘 Pulses (दालें)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="sett-irrigation">Irrigation Method</label>
+            <select id="sett-irrigation" class="select-input">
+              <option value="tubewell">Tube well</option>
+              <option value="rainfed">Rain-fed</option>
+              <option value="drip">Drip Irrigation</option>
+              <option value="sprinkler">Sprinkler</option>
+              <option value="canal">Canal</option>
+              <option value="other">Other</option>
             </select>
           </div>
         </div>
@@ -546,7 +724,7 @@
             <button class="lang-pill" data-lang="bn">বাংলা</button>
             <button class="lang-pill" data-lang="ta">தமிழ்</button>
             <button class="lang-pill" data-lang="te">తెలుగు</button>
-            <button class="lang-pill" data-lang="kn">ಕನ್ನಡ</button>
+            <button class="lang-pill" data-lang="kn"><ctrl42>ಕನ್ನಡ</button>
             <button class="lang-pill" data-lang="ml">മലയാളം</button>
             <button class="lang-pill" data-lang="ur">اردو</button>
             <button class="lang-pill" data-lang="or">ଓଡ଼ିଆ</button>
@@ -582,7 +760,7 @@
       </div>
     </div>
 
-    <!-- 7. LOCAL PROFILE SWITCHER MODAL / SCREEN -->
+    <!-- 7. LOCAL PROFILE SWITCHER SCREEN -->
     <div id="screen-profile-switch" class="app-screen">
       <header class="app-header">
         <button class="btn-back" onclick="goToScreen('screen-settings')"><i class="fa-solid fa-arrow-left"></i></button>
@@ -616,7 +794,7 @@
       
       <div class="screen-content form-container">
         <!-- Admin Security Authorization Lock -->
-        <div id="admin-lock-overlay" class="admin-lock-overlay hidden">
+        <div id="admin-lock-overlay" class="admin-lock-overlay">
           <div class="lock-card">
             <i class="fa-solid fa-lock text-amber" style="font-size: 36px; margin-bottom: 12px;"></i>
             <h3>Admin Privileges Required</h3>
@@ -632,6 +810,7 @@
         <div id="admin-content-body">
           <div class="settings-card">
             <h3 class="card-title"><i class="fa-solid fa-server"></i> <span>Server & Telemetry Metrics</span></h3>
+            <p class="card-desc" style="color: var(--earth-amber); margin-bottom: 12px;"><i class="fa-solid fa-triangle-exclamation"></i> Development & Administrative Diagnostics Tool</p>
             <div class="admin-metrics-grid">
               <div class="metric-box">
                 <span class="num" id="admin-metric-status">ONLINE</span>
